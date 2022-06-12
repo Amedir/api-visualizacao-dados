@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device=width, initial-scale=1.0">
+  <title>Exemplo de Grafico</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <link rel="stylesheet" href="">
+</head>
+
+<body>
+  <h1>Hello world</h1>
+  
+  <canvas id="lineChart" width="900" height="400"></canvas>
+   <script>
+       var ctx = document.getElementById("lineChart").getContext("2d");
+       var lineChart = new Chart( ctx, {
+           type: "line",
+           data: {
+               labels: {{ labels | safe }},
+               datasets: [
+                   {
+                       label: "Dados",
+                       data: {{values}},
+                       fill: true,
+                       borderColor: "rgb(239, 35, 60)",
+                       backgroundColor: "rgb(239, 35, 60)",
+                       lineTension: 0.5
+                   }
+                ]
+           },
+           options: {
+               responsive: true
+           }
+       });
+   </script>
+</body>
+
+</html>
