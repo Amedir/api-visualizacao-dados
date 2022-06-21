@@ -1,16 +1,37 @@
 from flask import Flask, Blueprint, request, render_template
 import pandas as pd
-import os
 
 views = Blueprint('views', __name__)
 
-arquivo = os.path.abspath('./app/dados/data_covid.csv')
-df = pd.read_csv(arquivo)
+gsheetid = "1spJY13t1JG08XqczqSm_78g4W3Krcje9mHLXQJAMI74"
+gsheet_url = 'https://docs.google.com/spreadsheets/d/{}/edit#gid=566910442'.format(gsheetid)
+url_1 = gsheet_url.replace('/edit#gid=', '/export?format=csv&gid=')
+df = pd.read_csv(url_1)
+
+# arquivo = os.path.abspath('./app/dados/data_covid.csv')
+# df = pd.read_csv(arquivo)
 
 @views.route('/')
 def hello():
+    url_base = request.host_url
+    url = url_base + "insight"
+
+    return render_template('index.html', url=url)
+
+@views.route('/insight1')
+def qntd_casos():
+    global values
+    global qntd
+    global labels
+    global data
+    global typeChart
+    url_base = request.host_url
+    url = url_base + "insight"
+    data = "Casos confirmados"
+    typeChart = "line"    
     count_casos = []
     meses = []
+    
     df['ano_mes'] = df['date'].str[0:7]
     
     for x in range(len(df)):
@@ -26,8 +47,12 @@ def hello():
     meses = list(dict.fromkeys(meses))
     count_casos = list(dict.fromkeys(count_casos))
     qntd = len(count_casos)
-
-    return render_template('index.html', values = count_casos, qntd = qntd, labels = meses)
+    
+    values = count_casos
+    qntd = qntd
+    labels = meses
+    
+    return render_template('index.html', url=url, typeChart=typeChart, data = data, values = values, qntd = qntd, labels = labels)
 
 @views.route('/gjs')
 def graf():
