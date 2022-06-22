@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device=width, initial-scale=1.0">
+  <title>Dashboard - CatLovers</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link href="../static/dashboard.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+  <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="{{url_base}}">Owid Covid 19 - Brasil</a>
+  </header>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{{url_base}}">
+                <span data-feather="home" class="align-text-bottom"></span>
+                Tela inicial
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url}}1">
+                <span data-feather="file" class="align-text-bottom"></span>
+                Quantidade de casos por mês
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url}}2">
+                <span data-feather="shopping-cart" class="align-text-bottom"></span>
+                Insght 2
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url}}3">
+                <span data-feather="users" class="align-text-bottom"></span>
+                Insght 3
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{url}}4">
+                <span data-feather="bar-chart-2" class="align-text-bottom"></span>
+                Insght 4
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+        <div
+          class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+          <img src="" alt="">
+        </div>
+        {% if data == "Selecione"%}
+        <div class="salut row d-flex justify-content-center align-items-center">
+          <div class="d-flex justify-content-center align-items-center">
+            <img src="../static/img/logo.png" alt="Logo ChartJs" width="60%">
+          </div>
+          <div class="d-flex justify-content-center align-items-center">
+            <h4>Dashboard desenvolvido pela equipe CatLovers como proposta de solução ao projeto final da cadeira de
+              Data Science da Faculdade Senac PE</h4>
+          </div>
+          <div class="links d-flex justify-content-between align-items-center">
+            <a type="button" class="btn btn-danger" href="{{url}}1">Insight 1</a>
+            <a type="button" class="btn btn-primary" href="{{url}}2">Insight 2</a>
+            <a type="button" class="btn btn-success" href="{{url}}3">Insight 3</a>
+            <a type="button" class="btn btn-dark" href="{{url}}4">Insight 4</a>
+          </div>
+        </div>
+        {% else %}
+        <canvas class="my-4 w-100" id="lineChart" width="900" height="380"></canvas>
+        {% endif %}
+      </main>
+    </div>
+  </div>
+  <script>
+    var ctx = document.getElementById("lineChart").getContext("2d");
+    var lineChart = new Chart(ctx, {
+      type: "{{typeChart}}",
+      data: {
+        labels: {{ labels | safe }},
+        datasets: [
+        {
+          label: '{{data}}',
+          data: {{ values }},
+          fill: true,
+          borderColor: "{{borderColor}}",
+          backgroundColor: "{{backgroundColor}}",
+        },
+        {
+          label: '{{data1}}',
+          data: {{ values1 }},
+          fill: true,
+          borderColor: "{{borderColor2}}",
+          backgroundColor: "{{backgroundColor3}}",
+        }]
+            },
+    options: {
+      responsive: true
+    }
+        });
+  </script>
+  <script src="../static/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"
+    integrity="sha384-uO3SXW5IuS1ZpFPKugNNWqTZRRglnUJK6UAZ/gxOX80nxEkN9NcGZTftn6RzhGWE"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"
+    integrity="sha384-zNy6FEbO50N+Cg5wap8IKA4M/ZnLJgzc6w2NqACZaK0u0FXfOWRRJOnQtpZun8ha"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
